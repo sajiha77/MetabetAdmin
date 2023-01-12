@@ -32,6 +32,7 @@ import EventHistoryDisplay from "./Components/EventHistoryDisplay/EventHistory";
 import EditDetails from "./Components/Edit/EditDetails";
 import ETH from "./Components/ETH/ETH";
 import Airdrop from "./Components/Airdrop/Airdrop";
+import { UfcContainer } from "./Components/Golf/Golf.styles";
 
 const token = localStorage.getItem("token");
 const router = createBrowserRouter([
@@ -65,7 +66,17 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/UFC",
-        element: <UFC />,
+        element: <EventHistoryDisplay query="ufc" />,
+        children: [
+          {
+            path: "EditDetails:id",
+            element: <UFC edit={true} />,
+          },
+          {
+            path: "create",
+            element: <UFC />,
+          },
+        ],
       },
       {
         path: "admin/Soccer",
@@ -73,7 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/BTC",
-        element: <EventHistoryDisplay />,
+        element: <EventHistoryDisplay query="bitcoin" />,
 
         children: [
           {
@@ -104,7 +115,18 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/AmericanFootball",
-        element: <Football />,
+        element: <EventHistoryDisplay query="football" />,
+
+        children: [
+          {
+            path: "EditDetails:id",
+            element: <Football edit={true} />,
+          },
+          {
+            path: "create",
+            element: <Football />,
+          },
+        ],
       },
       {
         path: "admin/Cricket",
@@ -148,7 +170,17 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/ETH",
-        element: <ETH />,
+        element: <EventHistoryDisplay query="eth" />,
+        children: [
+          {
+            path: "EditDetails/:id",
+            element: <ETH edit={true} />,
+          },
+          {
+            path: "create",
+            element: <ETH />,
+          },
+        ],
       },
     ],
   },

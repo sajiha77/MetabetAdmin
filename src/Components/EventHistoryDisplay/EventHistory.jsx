@@ -1,26 +1,27 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Loading from "../Loading/Loading";
-import { Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
 import { getBannersData } from "../../api/API";
 import { BitcoinData } from "../Bitcoin/BitcoinData";
 
-const EventHistoryDisplay = () => {
+const EventHistoryDisplay = ({ query }) => {
   const { fetchData, response, loading } = useAxios();
   const navigate = useNavigate();
 
   const getBanners = async () => {
     await fetchData({
       method: "GET",
-      url: `${getBannersData}?q=bitcoin`,
+      url: `${getBannersData}?q=${query}`,
     });
   };
 
   useEffect(() => {
     getBanners();
-  }, []);
+  }, [query]);
 
+  useEffect(() => {}, [navigate]);
   const renderData = response?.map((item, index) => {
     return (
       <div className="input-wrapper" key={index}>
@@ -31,7 +32,9 @@ const EventHistoryDisplay = () => {
             disabled
           />
         </label>
-        <button onClick={() => navigate("EditDetails", { state: item })}>
+        <button
+          onClick={() => navigate(`EditDetails:${item._id}`, { state: item })}
+        >
           Edit
         </button>
       </div>
@@ -44,15 +47,22 @@ const EventHistoryDisplay = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-            }}
-          >
-            {renderData}
-          </div>
+          <>
+            <div className="create-btn-wrapper">
+              <NavLink to="create" className="createNewBtn">
+                Create New Event
+              </NavLink>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+              }}
+            >
+              {renderData}
+            </div>
+          </>
         )}
       </EventHistoryPage>
       <div id="detail">
@@ -67,9 +77,11 @@ const EventHistoryPage = styled.div`
   flex-direction: column;
   gap: 10px;
   text-align: center;
-  max-width: 500px;
+  /* max-width: 560px; */
+  width: 100%;
   margin: 40px auto 0;
   text-align: center;
+
   @media screen and (max-width: 1100px) {
     margin: 40px 10px;
   }
@@ -77,7 +89,9 @@ const EventHistoryPage = styled.div`
   .input-wrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    width: 100%;
   }
 
   label {
@@ -92,9 +106,21 @@ const EventHistoryPage = styled.div`
     border-radius: 100px;
     text-decoration: none;
     color: #fff;
+    font-weight: 700;
     padding: 8px 30px;
     border: none;
     cursor: pointer;
+  }
+  .create-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 30px;
+  }
+
+  .createNewBtn {
+    padding: 10px 30px;
+    /* max-width: 180px; */
+    /* margin: 0 auto 25px; */
   }
 `;
 

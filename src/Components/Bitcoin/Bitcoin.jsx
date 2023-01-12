@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { uploadAPI } from "../../api/API";
+import { API, uploadAPI } from "../../api/API";
 import { useAxios } from "../../hooks/useAxios";
 import { useBanner } from "../../hooks/useBanner";
 import { UfcContainer, Form, ContainerRight, Input } from "../UFC/UFC.styles";
@@ -27,9 +27,10 @@ function Bitcoin({ edit }) {
   };
 
   const updateEvent = async () => {
+    // console.log({ data: eventData });
     await fetchData({
       method: "PUT",
-      url: `${uploadAPI}/editEvent/${state._id}?q=bitcoin`,
+      url: `${API}/editEvent/${state._id}?q=bitcoin`,
       data: { ...bannerData, ...eventData },
     });
   };
@@ -37,13 +38,11 @@ function Bitcoin({ edit }) {
   useEffect(() => {
     console.log(
       {
-        1: bannerData,
-        2: eventData,
-        3: state,
+        data: { ...bannerData, ...eventData },
       },
       "data"
     );
-  }, [eventData, bannerData, state]);
+  }, [eventData, bannerData]);
 
   return (
     <>
@@ -74,6 +73,7 @@ function Bitcoin({ edit }) {
                 value={edit ? state[item.name] : null}
                 name={item.name}
                 placeholder={item.placeholder}
+                handleChange={handleChange}
               />
             </label>
           ))}
@@ -102,7 +102,7 @@ function Bitcoin({ edit }) {
                 <input
                   type="file"
                   id="icon"
-                  // value={state.footerBanner}
+                  // value={state?.footerBanner}
                   name="footerBanner"
                   onChange={handleBanner}
                 />
@@ -150,9 +150,9 @@ function Bitcoin({ edit }) {
 
 export default Bitcoin;
 
-const INPUT = ({ value, ...props }) => {
+export const INPUT = ({ value, handleChange, ...props }) => {
   const [state, setState] = useState(value);
-  const { handleChange } = useBanner();
+  // const {handleChange} = useBanner();
 
   const handleValue = (e) => {
     setState(e.target.value);

@@ -18,8 +18,6 @@ const TopNav = () => {
       <div className="right-nav">
         <NavLink to="/admin/">$Truth</NavLink>
         <NavLink to="admin/Airdrop">Airdrop</NavLink>
-        <NavLink to="admin/BTC/create">Create</NavLink>
-        <NavLink to="admin/edit">Edit</NavLink>
         <button id="btn" onClick={deleteCookie}>
           Logout
         </button>
