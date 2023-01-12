@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+input {
+  border: none;
+  background: transparent;
+  text-align: end;
+}
+
+
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
