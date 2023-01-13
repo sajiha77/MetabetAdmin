@@ -33,6 +33,7 @@ import EditDetails from "./Components/Edit/EditDetails";
 import ETH from "./Components/ETH/ETH";
 import Airdrop from "./Components/Airdrop/Airdrop";
 import { UfcContainer } from "./Components/Golf/Golf.styles";
+import { ContextProvider } from "./hooks/useContext";
 
 const token = localStorage.getItem("token");
 const router = createBrowserRouter([
@@ -69,7 +70,7 @@ const router = createBrowserRouter([
         element: <EventHistoryDisplay query="ufc" />,
         children: [
           {
-            path: "EditDetails:id",
+            path: "EditDetails/:id",
             element: <UFC edit={true} />,
           },
           {
@@ -88,7 +89,7 @@ const router = createBrowserRouter([
 
         children: [
           {
-            path: "EditDetails",
+            path: "EditDetails/:id",
             element: <Bitcoin edit={true} />,
           },
           {
@@ -119,7 +120,7 @@ const router = createBrowserRouter([
 
         children: [
           {
-            path: "EditDetails:id",
+            path: "EditDetails/:id",
             element: <Football edit={true} />,
           },
           {
@@ -188,6 +189,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ContextProvider>
+      <RouterProvider router={router} />
+    </ContextProvider>
   </React.StrictMode>
 );

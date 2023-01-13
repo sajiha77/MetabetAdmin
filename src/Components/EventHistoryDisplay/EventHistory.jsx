@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Loading from "../Loading/Loading";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
 import { getBannersData } from "../../api/API";
 import { BitcoinData } from "../Bitcoin/BitcoinData";
+// import { Context } from "../../hooks/useContext";
 
 const EventHistoryDisplay = ({ query }) => {
+  // const { setItems } = useContext(Context);
   const { fetchData, response, loading } = useAxios();
   const navigate = useNavigate();
 
@@ -21,6 +23,8 @@ const EventHistoryDisplay = ({ query }) => {
     getBanners();
   }, [query]);
 
+  // console.log("first", items);
+
   useEffect(() => {}, [navigate]);
   const renderData = response?.map((item, index) => {
     return (
@@ -33,7 +37,7 @@ const EventHistoryDisplay = ({ query }) => {
           />
         </label>
         <button
-          onClick={() => navigate(`EditDetails:${item._id}`, { state: item })}
+          onClick={() => navigate(`EditDetails/${item._id}`, { state: item })}
         >
           Edit
         </button>

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
 import { ContainerRight, Form, Input, UfcContainer } from "../UFC/UFC.styles";
 import { CricketData } from "../Cricket/CricketData";
 
@@ -9,7 +8,8 @@ import { useAxios } from "../../hooks/useAxios";
 import { useBanner } from "../../hooks/useBanner";
 
 const EditDetails = () => {
-  const { state, query } = useLocation();
+  // const { state, query } = useLocation();
+
   const { fetchData } = useAxios();
   const { bannerData, handleBanner, handleChange, eventData } = useBanner();
 
@@ -21,14 +21,14 @@ const EditDetails = () => {
     });
   };
 
-  console.log("title", state);
+  // console.log("title", state);
 
   return (
     <EventDetailsCom>
       <h1>Edit Event</h1>
       <UfcContainer>
         <Form>
-          {state.map((item) => (
+          {/* {state.map((item) => (
             <label
               style={{
                 background: item.backgroundColor && item.backgroundColor,
@@ -44,7 +44,7 @@ const EditDetails = () => {
                 placeholder={item.placeholder}
               />
             </label>
-          ))}
+          ))} */}
         </Form>
         <div className="right-pannel">
           <div className="pannel">

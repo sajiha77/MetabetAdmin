@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { UfcContainer, Form, ContainerRight, Input } from "../UFC/UFC.styles";
 import { UFCData } from "./UFCData";
 import { useAxios } from "../../hooks/useAxios";
@@ -6,15 +6,18 @@ import { useBanner } from "../../hooks/useBanner";
 import { uploadAPI } from "../../api/API";
 import { useEffect } from "react";
 import { INPUT } from "../Bitcoin/Bitcoin";
+import { Context } from "../../hooks/useContext";
 import { useLocation } from "react-router-dom";
 function UFC({ edit }) {
   const { fetchData } = useAxios();
   const { bannerData, handleBanner, handleChange, eventData } = useBanner();
   const { state } = useLocation();
+  // const { items } = useContext(Context);
 
   useEffect(() => {
-    console.log(state, "state");
+    console.log("first", state);
   }, [state]);
+
   const uploadEvent = async () => {
     await fetchData({
       method: "POST",
@@ -38,6 +41,36 @@ function UFC({ edit }) {
       ...eventData,
     });
   }, [eventData, bannerData]);
+
+  const MemoizedComponent = useMemo(
+    () => (
+      <Form>
+        {UFCData?.map((item) => (
+          <label
+            style={{
+              background: item?.backgroundColor && item?.backgroundColor,
+              color: item?.color && item?.color,
+            }}
+          >
+            {item?.title}
+            <INPUT
+              getColor={item?.color_1}
+              // onChange={handleChange}
+              type="text"
+              value={edit ? state[item?.name] : null}
+              name={item?.name}
+              placeholder={item?.placeholder}
+              handleChange={handleChange}
+            />
+          </label>
+        ))}
+      </Form>
+    ),
+    [state]
+  );
+
+  console.log("render", MemoizedComponent);
+
   return (
     <>
       {edit && (
@@ -51,27 +84,7 @@ function UFC({ edit }) {
         </h1>
       )}
       <UfcContainer>
-        <Form>
-          {UFCData.map((item) => (
-            <label
-              style={{
-                background: item.backgroundColor && item.backgroundColor,
-                color: item.color && item.color,
-              }}
-            >
-              {item.title}
-              <INPUT
-                getColor={item.color_1}
-                // onChange={handleChange}
-                type="text"
-                value={edit ? state.eventName : null}
-                name={item.name}
-                placeholder={item.placeholder}
-                handleChange={handleChange}
-              />
-            </label>
-          ))}
-        </Form>
+        {MemoizedComponent}
         <div className="right-pannel">
           <div className="pannel">
             <ContainerRight>
